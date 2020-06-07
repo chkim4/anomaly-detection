@@ -12,6 +12,9 @@ def main():
     raw_data_train = pd.read_csv('./dataset/raw_data/train-set-raw.csv')  
     raw_data_test = pd.read_csv('./dataset/raw_data/test-set-raw.csv')
 
+    #raw_data_train['new_label'] = "" 
+    #raw_data_test['new_label'] = ""
+
     # Column[0] of the train and test dataset are id, a meaningless sequence number.  
     # also, column[44] of the both datasets is the status information ex. normal, Exploits, etc. 
     # So, both columns are excluded in the new data set.   
@@ -21,7 +24,8 @@ def main():
     # Collect every kinds of 'proto', 'service' and 'state' which includes string data from train dataset without duplication 
     s_proto = set(X_raw_data_train['proto']) 
     s_service = set(X_raw_data_train['service'])
-    s_state = set(X_raw_data_train['state']) 
+    s_state = set(X_raw_data_train['state'])
+    #s_new_label = set(X_raw_data_train['attack_cat']) 
     # There are some values that only in the 'test-set-raw.csv'
     # So, the threee sets are needed to be updated. 
     s_proto.update(X_raw_data_test['proto'])
@@ -31,16 +35,20 @@ def main():
     # Convert the sets into the list. So that each value can be converted into its index
     l_proto = list(s_proto)
     l_service = list(s_service)
-    l_state = list(s_state)
+    l_state = list(s_state) 
+    #l_new_label = list(s_new_label) 
 
     # Change the character values in the train dataset into index value of the list
     for index, row in X_raw_data_train.iterrows():
+    #    X_raw_data_train.iat[index, 46] = l_new_label.index(X_raw_data_train.iat[index, 44])
         X_raw_data_train.iat[index, 1] = l_proto.index(X_raw_data_train.iat[index, 1])
         X_raw_data_train.iat[index, 2] = l_service.index(X_raw_data_train.iat[index, 2]) 
-        X_raw_data_train.iat[index, 3] = l_state.index(X_raw_data_train.iat[index, 3])  
+        X_raw_data_train.iat[index, 3] = l_state.index(X_raw_data_train.iat[index, 3])
+
     
     # Change the character values in the test dataset into index value of the list
-    for index, row in X_raw_data_test.iterrows():
+    for index, row in X_raw_data_test.iterrows(): 
+    #    X_raw_data_test.iat[index, 46] = l_new_label.index(X_raw_data_test.iat[index, 44])
         X_raw_data_test.iat[index, 1] = l_proto.index(X_raw_data_test.iat[index, 1])
         X_raw_data_test.iat[index, 2] = l_service.index(X_raw_data_test.iat[index, 2]) 
         X_raw_data_test.iat[index, 3] = l_state.index(X_raw_data_test.iat[index, 3])
@@ -55,7 +63,12 @@ def main():
     raw_data_test_labels = pd.DataFrame({'label': raw_data_test['label']})
     
     raw_data_train_labels.to_csv('./dataset/train-set-label.csv', index=False)
-    raw_data_test_labels.to_csv('./dataset/test-set-label.csv', index=False)
+    raw_data_test_labels.to_csv('./dataset/test-set-label.csv', index=False)   
+
+
+
+
+
 
 if __name__=="__main__": 
     main() 
