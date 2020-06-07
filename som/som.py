@@ -47,8 +47,8 @@ def main():
         else: 
             test_predictions[index] = 0      
     tp = 0
+    fn = 0
     fp = 0 
-    fn = 0 
     tn = 0 
     total_labels = 175341
 
@@ -66,11 +66,11 @@ def main():
                 fn = fn+1
 
     tp_rate = round(tp/total_labels,2) * 100
-    fp_rate = round(fp/total_labels,2) * 100
     fn_rate = round(fn/total_labels,2) * 100
+    fp_rate = round(fp/total_labels,2) * 100
     tn_rate = round(tn/total_labels,2) * 100
 
-    print("True Positive: ",tp_rate,"%")
+    print("True Positive: ",tp_rate,"%") 
     print("False Negative: ",fn_rate,"%")
     print("False Positive: ",fp_rate,"%")
     print("True Negative: ",tn_rate,"%") 
