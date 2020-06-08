@@ -24,14 +24,20 @@ def main():
     # Initialize model
     model = models.Sequential()
 
-    # Add layers to model(# of the neuron, activation function, input size)  
+    # Add layers to model(# of the neuron, activation function, input size)
+    # neuron: a unit that calculates the weight for each feature and send the result to the next neurons of the next layer
+    # activation function: determines the value of a combination of weight and each feature   
     # relu: to prevent vanishing gradient problem of sigmoid 
     # sigmod: outputs between 0 and 1
     model.add(layers.Dense(64, activation="relu", input_shape=(42,)))
     model.add(layers.Dense(64, activation="relu"))
     model.add(layers.Dense(1, activation="sigmoid"))
     
-    # Set method of learning and evaluation (Gradient descent, error function, evaluation indicator)
+    # optimizer: optimization function to be applied to decrease errors
+    # RMSprop reflects new inputs more than the old ones
+    # loss: loss function that calculates differences between y_train and the model's prediction value. 
+    # binary_crossentropy is used when y_train consists of two categories (0 and 1)
+    # metrics: measures tp, fp, fn and tn for each epochs 
     model.compile(optimizer=optimizers.RMSprop(lr=0.001),
                 loss=losses.binary_crossentropy,
                 metrics=[tf.keras.metrics.TruePositives(name='true_positives')
@@ -40,11 +46,12 @@ def main():
                           ,tf.keras.metrics.TrueNegatives(name='true_negatives')
                           ])
     
+    # epochs: the number of calculating weights(training phase)
     model.fit(X_train, y_train, epochs=20, batch_size=1024)  
 
     results = model.evaluate(X_test, y_test, batch_size=128) 
-    print("execution time: ", time.time() - start)
-    
+    print("execution time: ", time.time() - start) 
+
     tp = results[1] 
     tn = results[2] 
     fp = results[3] 
@@ -61,8 +68,8 @@ def main():
     print("False Negative: ",fn_rate,"%")
     print("False Positive: ",fp_rate,"%")
     print("True Negative: ",tn_rate,"%")  
-    
  
 # Calling main function 
 if __name__=="__main__": 
     main()
+
