@@ -12,9 +12,6 @@ def main():
     raw_data_train = pd.read_csv('./dataset/raw_data/train-set-raw.csv')  
     raw_data_test = pd.read_csv('./dataset/raw_data/test-set-raw.csv')
 
-    #raw_data_train['new_label'] = "" 
-    #raw_data_test['new_label'] = ""
-
     # Column[0] of the train and test dataset are id, a meaningless sequence number.  
     # also, column[44] of the both datasets is the status information ex. normal, Exploits, etc. 
     # So, both columns are excluded in the new data set.   
@@ -54,7 +51,6 @@ def main():
         X_raw_data_test.iat[index, 3] = l_state.index(X_raw_data_test.iat[index, 3])
 
     # Save them as csv file.
-    
     X_raw_data_train.to_csv('./dataset/train-set.csv', index=False) 
     X_raw_data_test.to_csv('./dataset/test-set.csv', index=False) 
     
@@ -64,11 +60,6 @@ def main():
     
     raw_data_train_labels.to_csv('./dataset/train-set-label.csv', index=False)
     raw_data_test_labels.to_csv('./dataset/test-set-label.csv', index=False)   
-
-
-
-
-
-
+    
 if __name__=="__main__": 
     main() 

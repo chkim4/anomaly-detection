@@ -1,6 +1,6 @@
-# anomaly-detection with machine learning
-This repo is network anomaly detection models trained and tested by [UNSW-NB15](https://www.unsw.adfa.edu.au/unsw-canberra-cyber/cybersecurity/ADFA-NB15-Datasets/) dataset.
-This is created for section IV of information security class. The report is available [here](https://www.overleaf.com/read/bvcffqqhdkfr). This repo consists of machine learning models: 
+# Anomaly-detection with machine learning
+This repo is network anomaly detection models trained and tested by the [UNSW-NB15](https://www.unsw.adfa.edu.au/unsw-canberra-cyber/cybersecurity/ADFA-NB15-Datasets/) dataset.
+This was created because of section IV of the report for information security class. The report is available [here](https://www.overleaf.com/read/bvcffqqhdkfr). This repo consists of following machine learning models in each folder: 
 
 * Decision Tree
 * Naive Bayes 

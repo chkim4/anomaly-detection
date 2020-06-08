@@ -23,11 +23,6 @@ def cal_accuracy(y_test, y_pred):
     # labels: Change the order of the result 
     # to not be confused with the order of 
     # TP(True Positive), FN(False Negative), FP(False Positive) and TN(True Negative)    
-    # TP: predict the data as an anomaly and it is anomaly
-    # FN: predict the data as a normal but it is anomaly
-    # FP: predict the data as an anomaly but it is normal
-    # TN: predict the data as a normal and it is normal 
-
     con_matrix = confusion_matrix(y_test, y_pred, labels=[1, 0])  
 
     # Calculate the ratio of TP, FN, FP, and TN to total_labels
