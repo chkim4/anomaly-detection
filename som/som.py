@@ -2,14 +2,18 @@
 
 import pandas as pd
 from somber import Som 
-import numpy as np
+import numpy as np 
+import time 
+import sys  
+import os
+sys.path.append(os.path.dirname(os.path.abspath(os.path.dirname(__file__))))
+import utils # my module
 
 def main(): 
-
+    # start measuring execution time
+    start = time.time()
     # Load training & testing datasets 
-    X_train = pd.read_csv('../dataset/train-set.csv')  
-    X_test = pd.read_csv('../dataset/test-set.csv') 
-    y_test = pd.read_csv('../dataset/test-set-label.csv')  
+    X_train, y_train, X_test, y_test = utils.load_dataset()  
 
     # Make a SOM whose units(clusters) are from 0 to 24 and learning from X_train   
     s = Som((5, 5), 42, learning_rate=0.3)
@@ -45,36 +49,11 @@ def main():
         if value in units:
             test_predictions[index] = 1 
         else: 
-            test_predictions[index] = 0      
-    tp = 0
-    fn = 0
-    fp = 0 
-    tn = 0 
-    total_labels = 175341
-
-    # Calculate TP, FP, FN and TN
-    for index, value in enumerate(test_predictions):  
-        if value == 1: 
-            if(y_test['label'][index] == 1): 
-                tp = tp+1 
-            else: 
-                fp = fp+1 
-        else: 
-            if(y_test['label'][index] == 0):
-                tn = tn+1
-            else: 
-                fn = fn+1
-
-    tp_rate = round(tp/total_labels,2) * 100
-    fn_rate = round(fn/total_labels,2) * 100
-    fp_rate = round(fp/total_labels,2) * 100
-    tn_rate = round(tn/total_labels,2) * 100
-
-    print("True Positive: ",tp_rate,"%") 
-    print("False Negative: ",fn_rate,"%")
-    print("False Positive: ",fp_rate,"%")
-    print("True Negative: ",tn_rate,"%") 
-
+            test_predictions[index] = 0    
+            
+    print("execution time: ", time.time() - start)
+    utils.cal_accuracy(y_test, test_predictions)   
+     
 # Calling main function 
 if __name__=="__main__": 
     main()

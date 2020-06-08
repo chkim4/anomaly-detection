@@ -3,15 +3,17 @@ import tensorflow as tf
 import pandas as pd
 import numpy as np
 from keras import models, layers, optimizers, losses, metrics  
-import time
+import time 
+import sys  
+import os
+sys.path.append(os.path.dirname(os.path.abspath(os.path.dirname(__file__))))
+import utils # my module
 
 def main():    
+    # start measuring execution time
     start = time.time()
-    # Load training & testing datasets 
-    X_train = pd.read_csv('../dataset/train-set.csv')  
-    y_train = pd.read_csv('../dataset/train-set-label.csv') 
-    X_test = pd.read_csv('../dataset/test-set.csv') 
-    y_test = pd.read_csv('../dataset/test-set-label.csv')
+    # Load training & testing datasets
+    X_train, y_train, X_test, y_test = utils.load_dataset()
 
     # Change data to float type data 
     X_train = np.asarray(X_train).astype("float32")
@@ -41,6 +43,7 @@ def main():
     model.fit(X_train, y_train, epochs=20, batch_size=1024)  
 
     results = model.evaluate(X_test, y_test, batch_size=128) 
+    print("execution time: ", time.time() - start)
     
     tp = results[1] 
     tn = results[2] 
@@ -58,7 +61,7 @@ def main():
     print("False Negative: ",fn_rate,"%")
     print("False Positive: ",fp_rate,"%")
     print("True Negative: ",tn_rate,"%")  
-    print("execution time: ", time.time() - start)
+    
  
 # Calling main function 
 if __name__=="__main__": 
