@@ -33,7 +33,7 @@ def main():
     test_predictions_tuple = sorted(test_predictions_dic.items(), key=(lambda x: x[1]))  
     
     # Iterate the list and save the sum of # element of each unit to 'sum'
-    # Then, add the unit number to 'units'. 
+    # Then, append the unit number to 'units'. 
     # If 'sum' reaches 5 ~ 10% (4116 ~ 8233) of the test dataset, stop the iteration 
     sum = 0 
     units = []

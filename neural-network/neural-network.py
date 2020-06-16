@@ -1,4 +1,5 @@
 # Anomaly-detection with neural network and performance test 
+
 import tensorflow as tf
 import pandas as pd
 import numpy as np
@@ -15,7 +16,7 @@ def main():
     # Load training & testing datasets
     X_train, y_train, X_test, y_test = utils.load_dataset()
 
-    # Change data to float type data 
+    # Change data to float type data for the model
     X_train = np.asarray(X_train).astype("float32")
     y_train = np.asarray(y_train).astype("float32") 
     X_test = np.asarray(X_train).astype("float32")
