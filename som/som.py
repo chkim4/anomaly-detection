@@ -16,11 +16,14 @@ def main():
     X_train, y_train, X_test, y_test = utils.load_dataset()  
 
     # Make a SOM whose units(clusters) are from 0 to 24 and learning from X_train   
-    s = Som((5, 5), 42, learning_rate=0.3)
-    s.fit(X_train, num_epochs=10, updates_epoch=10) 
+    model = Som((5, 5), 42, learning_rate=0.3)
+    model.fit(X_train, num_epochs=10, updates_epoch=10) 
+
+    # Save the model
+    utils.save_model(model,'./model/full-model.sav')  
 
     # Choose the proper unit for each row in the testing dataset
-    test_predictions = s.predict(X_test) 
+    test_predictions = model.predict(X_test) 
 
     # Select units that are likely to be an attack. (5 ~ 10% from the dataset)  
     # Create a dictionary: (unit number(0 ~ 24 for each), # element in the unit) 
@@ -52,7 +55,18 @@ def main():
             test_predictions[index] = 0    
             
     print("execution time: ", time.time() - start)
-    utils.cal_accuracy(y_test, test_predictions)   
+    utils.cal_accuracy(y_test, test_predictions, 175341)    
+
+    #######Create models for benchmarking NSL-KDD####### 
+
+    X_train = pd.read_csv('../dataset/unsw-nb15/nsl-kdd-ver/train-set.csv') 
+    
+    model = Som((5, 5), 5, learning_rate=0.3) 
+    model.fit(X_train, num_epochs=10, updates_epoch=10) 
+
+    # Save the models
+    utils.save_model(model,'./model/nsl-kdd-model.sav')
+ 
      
 # Calling main function 
 if __name__=="__main__": 

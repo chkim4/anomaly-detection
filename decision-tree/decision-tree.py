@@ -11,7 +11,7 @@ import utils # my module
         
 # Calculate impurity in the terminal nodes with gini index.
 # Calculating gini index is usually faster than entropy but the result can be more biased    
-def train_with_index(index, X_train, X_test, y_train): 
+def train_with_index(index, X_train, y_train): 
   
     # Create a classifier object 
     # criterion: index name to use (gini or entropy)
@@ -37,23 +37,36 @@ def main():
     # Load training & testing datasets
     X_train, y_train, X_test, y_test = utils.load_dataset()
 
-    gini_classifier = train_with_index('gini', X_train, X_test, y_train)  
-    
+    gini_classifier = train_with_index('gini', X_train, y_train)  
+
     print("Results Using Gini Index: \n")
     
     # Prediction using gini 
     y_pred_gini = prediction(X_test, gini_classifier) 
     print("execution time of classification with gini index: ", time.time() - start)
-    utils.cal_accuracy(y_test, y_pred_gini)  
+    utils.cal_accuracy(y_test, y_pred_gini, 175341)  
     
     start = time.time()
-    entropy_classifier = train_with_index('entropy', X_train, X_test, y_train)
+    entropy_classifier = train_with_index('entropy', X_train, y_train)
+
     print("Results Using Entropy: \n") 
     # Prediction using entropy 
     y_pred_entropy = prediction(X_test, entropy_classifier) 
     print("execution time of classification with entropy index: ", time.time() - start)
-    utils.cal_accuracy(y_test, y_pred_entropy)   
-      
+    utils.cal_accuracy(y_test, y_pred_entropy, 175341)    
+
+
+    #######Create models for benchmarking NSL-KDD#######   
+
+    X_train = pd.read_csv('../dataset/unsw-nb15/nsl-kdd-ver/train-set.csv') 
+    
+    gini_classifier = train_with_index('gini', X_train, y_train)
+    entropy_classifier = train_with_index('entropy', X_train, y_train) 
+
+    # Save the models
+    utils.save_model(gini_classifier,'./model/nsl-kdd-model-gini.sav')
+    utils.save_model(entropy_classifier,'./model/nsl-kdd-model-entropy.sav') 
+
 # Calling main function 
 if __name__=="__main__": 
     main()

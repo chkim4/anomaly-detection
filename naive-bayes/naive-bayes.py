@@ -22,11 +22,21 @@ def main():
     model = GaussianNB()
 
     #Train the model using the training sets
-    model.fit(X_train,y_train)
+    model.fit(X_train,y_train) 
 
     y_pred = model.predict(X_test)  
     print("execution time: ", time.time() - start)
-    utils.cal_accuracy(y_test, y_pred) 
+    utils.cal_accuracy(y_test, y_pred, 175341)  
 
+    #######Create models for benchmarking NSL-KDD####### 
+
+    X_train = pd.read_csv('../dataset/unsw-nb15/nsl-kdd-ver/train-set.csv') 
+    
+    model = GaussianNB() 
+    model.fit(X_train,y_train)  
+
+    # Save the models
+    utils.save_model(model,'./model/nsl-kdd-model.sav')
+ 
 if __name__=="__main__": 
     main() 
