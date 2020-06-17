@@ -1,4 +1,5 @@
-# Anomaly-detection with decision tree and performance test
+# Anomaly-detection with decision tree and performance test using test dataset from the same dataset
+# Finally, save a model for '../benchmark.py'
 
 import numpy as np 
 import pandas as pd 
@@ -6,7 +7,7 @@ from sklearn.tree import DecisionTreeClassifier
 import time
 import sys  
 import os
-sys.path.append(os.path.dirname(os.path.abspath(os.path.dirname(__file__))))
+sys.path.append(os.path.dirname(os.path.abspath(os.path.dirname(__file__)))) # to use utils.py
 import utils # my module
         
 # Calculate impurity in the terminal nodes with gini index.
@@ -56,7 +57,7 @@ def main():
     utils.cal_accuracy(y_test, y_pred_entropy, 175341)    
 
 
-    #######Create models for benchmarking NSL-KDD#######   
+    #######Create models for testing the NSL-KDD dataset#######   
 
     X_train = pd.read_csv('../dataset/unsw-nb15/nsl-kdd-ver/train-set.csv') 
     

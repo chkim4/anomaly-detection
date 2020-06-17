@@ -1,4 +1,5 @@
-# Anomaly-detection with Naive Bayes and performance test 
+# Anomaly-detection with Naive Bayes and performance test using test dataset from the same dataset
+# Finally, save a model for '../benchmark.py'
 
 import pandas as pd  
 import numpy as np
@@ -6,7 +7,7 @@ from sklearn.naive_bayes import GaussianNB
 import time
 import sys  
 import os
-sys.path.append(os.path.dirname(os.path.abspath(os.path.dirname(__file__))))
+sys.path.append(os.path.dirname(os.path.abspath(os.path.dirname(__file__)))) # to use utils.py
 import utils # my module 
 
 def main():  
@@ -28,14 +29,14 @@ def main():
     print("execution time: ", time.time() - start)
     utils.cal_accuracy(y_test, y_pred, 175341)  
 
-    #######Create models for benchmarking NSL-KDD####### 
+    #######Create models for testing the NSL-KDD dataset####### 
 
     X_train = pd.read_csv('../dataset/unsw-nb15/nsl-kdd-ver/train-set.csv') 
     
     model = GaussianNB() 
     model.fit(X_train,y_train)  
 
-    # Save the models
+    # Save the model
     utils.save_model(model,'./model/nsl-kdd-model.sav')
  
 if __name__=="__main__": 

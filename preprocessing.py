@@ -1,14 +1,20 @@
-# The original datasets ('./dataset/raw_data/train-set-raw.csv' and './dataset/raw_data/test-set-raw.csv')
-# are mixed with features and labels. So, they are needed to be divided into four files:    
-# 'dataset/test-set.csv', 'dataset/test-set-label.csv', 'dataset/train-set.csv' and 'dataset/train-set-label.csv' 
-# Some values in the train dataset and test dataset are characters that cannot be trained by models. 
-# So, converting them into number is required (preprocessing)  
-# After preprocessing, save them as csv files.
+# Preprocessing of the UNSW-NB15 and the NSL-KDD dataset
+# 
+# The UNSW-NB15 dataset includes its train and test dataset but some values of them are string. 
+# So, they need to be converted into numbers. Also, they are mixed with features and labels. 
+# So, they need to be divided into four files:    
+# 'dataset/unsw-nb15/unsw-nb15-train-test/test-set.csv', 'dataset/unsw-nb15/unsw-nb15-train-test/test-set-label.csv', 
+# 'dataset/unsw-nb15/unsw-nb15-train-test/train-set.csv' and 'dataset/unsw-nb15/unsw-nb15-train-test/train-set-label.csv'  
+# Since the NSL-KDD dataset has the same issues with the UNSW-NB15 dataset and it has only 5 features that are compatible with those of the UNSW-NB15,
+# it needs to be extracted some featues which are: duration, protocol_type, service, src_bytes, and dst_bytes.  
+# Also, it needs to be divided into two files which are: 
+# 'dataset/nsl-kdd/test-set.csv' and 'dataset/nsl-kdd/test-set-label.csv'
 
 import pandas as pd
 def main(): 
 
-    ######### Preprocessing for features #########
+    ######### Preprocessing for UNSW-NB15 #########
+    
     # Load the raw train dataset and test dataset 
     raw_data_train = pd.read_csv('./dataset/unsw-nb15/raw-data/unsw-nb15-train-test/train-set-raw.csv')  
     raw_data_test = pd.read_csv('./dataset/unsw-nb15/raw-data/unsw-nb15-train-test/test-set-raw.csv')
@@ -22,8 +28,7 @@ def main():
     # Collect every kinds of 'proto', 'service' and 'state' which includes string data from train dataset without duplication 
     s_proto = set(X_raw_data_train['proto']) 
     s_service = set(X_raw_data_train['service'])
-    s_state = set(X_raw_data_train['state'])
-    #s_new_label = set(X_raw_data_train['attack_cat']) 
+    s_state = set(X_raw_data_train['state']) 
 
     # There are some values that only in the 'test-set-raw.csv'
     # So, the threee sets are needed to be updated. 
@@ -34,12 +39,10 @@ def main():
     # Convert the sets into the list. So that each value can be converted into its index
     l_proto = list(s_proto)
     l_service = list(s_service)
-    l_state = list(s_state) 
-    #l_new_label = list(s_new_label) 
+    l_state = list(s_state)  
 
     # Change the character values in the train dataset into index value of the list
     for index, row in X_raw_data_train.iterrows():
-    #    X_raw_data_train.iat[index, 46] = l_new_label.index(X_raw_data_train.iat[index, 44])
         X_raw_data_train.iat[index, 1] = l_proto.index(X_raw_data_train.iat[index, 1])
         X_raw_data_train.iat[index, 2] = l_service.index(X_raw_data_train.iat[index, 2]) 
         X_raw_data_train.iat[index, 3] = l_state.index(X_raw_data_train.iat[index, 3])
@@ -47,7 +50,6 @@ def main():
     
     # Change the character values in the test dataset into index value of the list
     for index, row in X_raw_data_test.iterrows(): 
-    #    X_raw_data_test.iat[index, 46] = l_new_label.index(X_raw_data_test.iat[index, 44])
         X_raw_data_test.iat[index, 1] = l_proto.index(X_raw_data_test.iat[index, 1])
         X_raw_data_test.iat[index, 2] = l_service.index(X_raw_data_test.iat[index, 2]) 
         X_raw_data_test.iat[index, 3] = l_state.index(X_raw_data_test.iat[index, 3])
@@ -65,53 +67,43 @@ def main():
     raw_data_test_label.to_csv('./dataset/unsw-nb15/unsw-nb15-train-test/test-set-label.csv', index=False)    
 
     ######### Preprocessing for NSL-KDD #########
-    # Load nsl_kdd test dataset whose feature includes 'label'. 
-    # So, I need to divide two files which are: 
-    # test-set.csv: every features without label and 
-    # test-set-label.csv: includes label only
-
+    
+    # Load the dataset
     nsl_kdd = pd.read_csv('./dataset/nsl-kdd/raw-data/KDDTest-21.csv')
+    
+    # Extract features that are compatible with the UNSW-NB15
     nsl_kdd_test = nsl_kdd.iloc[:,1:7] 
     nsl_kdd_test.drop(nsl_kdd_test.columns[[3]], axis=1, inplace=True) 
-
-    unsw_headers = list(X_raw_data_test.columns.values)
     
-    # Change the character values in the test dataset into index value of the list
+    # Change the character values into index value of the list 
+    # The NSL-KDD includes services(nsl_kdd_test.iat[index, 2]) that are not included in the UNSW-NB15. 
+    # So, they are changed into the length of the 'l_service'  
     for index, row in nsl_kdd_test.iterrows(): 
-
         nsl_kdd_test.iat[index, 1] = l_proto.index(nsl_kdd_test.iat[index, 1]) 
         
         try:
-            nsl_kdd_test.iat[index, 2] = l_service.index(nsl_kdd_test.iat[index, 2])
-
+            nsl_kdd_test.iat[index, 2] = l_service.index(nsl_kdd_test.iat[index, 2]) 
         except ValueError:
             nsl_kdd_test.iat[index, 2] = len(l_service) 
             continue 
     
+    # Since UNSW-NB15 and NSL-KDD use different label names, convert those of NSL-KDD.
     nsl_kdd_test.rename(columns={'duration': 'dur', 'protocol_type':'proto', 
         'src_bytes': 'sbytes', 'dst_bytes': 'dbytes'}, inplace = True)
 
-    nsl_kdd_headers = list(nsl_kdd_test) 
-    index_num = 5
-
-    for header in unsw_headers: 
-        if(header not in nsl_kdd_headers):
-            nsl_kdd_test.insert(index_num,header,-1) 
-            index_num = index_num+1
-        
-        
-    # Save X_test as a csv file.
-    nsl_kdd_test.to_csv('./dataset/nsl-kdd/test-set.csv', index=False)  
-
+    # Extract labels to build y_test 
     nsl_kdd_test_labels = pd.DataFrame({'label': nsl_kdd['label']})
 
-    # Since the original dataset's label is either 'normal' or 'anomaly', it needs to be converted into 1(anomaly) and 0(normal).
+    # Since the original dataset's label is either 'normal' or 'anomaly', 
+    # They need to be converted into 1(anomaly) and 0(normal).
     for index, row in nsl_kdd_test_labels.iterrows():     
         if(nsl_kdd_test_labels.iat[index, 0] == 'anomaly'):
             nsl_kdd_test_labels.iat[index, 0] = 1 
         else: 
-            nsl_kdd_test_labels.iat[index, 0] = 0
-
+            nsl_kdd_test_labels.iat[index, 0] = 0 
+    
+    # Save X_test as a csv file.
+    nsl_kdd_test.to_csv('./dataset/nsl-kdd/test-set.csv', index=False)  
     # Save y_test as a csv file.
     nsl_kdd_test_labels.to_csv('./dataset/nsl-kdd/test-set-label.csv', index=False)
     
