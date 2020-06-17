@@ -23,8 +23,3 @@ It created because of section IV of the report for information security class. T
 * benchmark.py includes benchmarking the NSL-KDD dataset with models trained by UNSW-NB15.
 * To test the UNSW-NB15 dataset and create each models for benchmark, execute python files in each folder.  
 * The models calculate TP(True Positive), FN(False Negative), FP(False Positive) and TN(True Negative) from the training dataset
-
-
-
-
- 
