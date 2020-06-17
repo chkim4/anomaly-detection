@@ -1,6 +1,6 @@
 # Anomaly-detection with machine learning
-This repo is network anomaly detection models trained and tested by the [UNSW-NB15](https://www.unsw.adfa.edu.au/unsw-canberra-cyber/cybersecurity/ADFA-NB15-Datasets/) dataset.
-This was created because of section IV of the report for information security class. The report is available [here](https://www.overleaf.com/read/bvcffqqhdkfr). This repo consists of following machine learning models in each folder: 
+This repo is network anomaly detection models trained and tested by the [UNSW-NB15](https://www.unsw.adfa.edu.au/unsw-canberra-cyber/cybersecurity/ADFA-NB15-Datasets/) dataset. Benchmarking with [KDD-NSL](https://www.unb.ca/cic/datasets/nsl.html) is included too.
+It created because of section IV of the report for information security class. The paper is available [here](https://www.overleaf.com/read/bvcffqqhdkfr). This repo consists of following machine learning models in each folder: 
 
 * Decision Tree
 * Naive Bayes 
@@ -16,14 +16,10 @@ This was created because of section IV of the report for information security cl
 * [tensorflow2.0](https://pypi.org/project/tensorflow/) 
 * [keras](https://pypi.org/project/Keras/) 
 * [somber](https://github.com/stephantul/somber) 
+* [joblib](https://joblib.readthedocs.io/en/latest/)
 
 ## Usage 
 
-* Execute python file in each folder.
-* Then the model will be created.  
-* The model calculates TP(True Positive), FN(False Negative), FP(False Positive) and TN(True Negative) from the training dataset
-
-
-
-
- 
+* benchmark.py includes benchmarking the NSL-KDD dataset with models trained by UNSW-NB15.
+* To test the UNSW-NB15 dataset and create each models for benchmark, execute python files in each folder.  
+* The models calculate TP(True Positive), FN(False Negative), FP(False Positive) and TN(True Negative) from the training dataset
