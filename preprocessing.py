@@ -16,8 +16,8 @@ def main():
     ######### Preprocessing for UNSW-NB15 #########
     
     # Load the raw train dataset and test dataset 
-    raw_data_train = pd.read_csv('./dataset/unsw-nb15/raw-data/unsw-nb15-train-test/train-set-raw.csv')  
-    raw_data_test = pd.read_csv('./dataset/unsw-nb15/raw-data/unsw-nb15-train-test/test-set-raw.csv')
+    raw_data_train = pd.read_csv('./dataset/unsw-nb15/raw-data/train-set-raw.csv')  
+    raw_data_test = pd.read_csv('./dataset/unsw-nb15/raw-data/test-set-raw.csv')
 
     # Column[0] of the train and test dataset are id, a meaningless sequence number.  
     # also, column[44] of the both datasets is the status information ex. normal, Exploits, etc. 

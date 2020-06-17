@@ -6,7 +6,7 @@
 
 import pandas as pd
 from somber import Som 
-import numpy as np 00
+import numpy as np 
 import time 
 import sys  
 import os
@@ -28,7 +28,7 @@ def main():
     y_pred = utils.create_binary_prediction_som(y_pred, 175341, 0.65, 0.05) 
             
     print("execution time: ", time.time() - start)
-    utils.cal_accuracy(y_test, test_predictions, 175341)   
+    utils.cal_accuracy(y_test, y_pred, 175341)   
      
 # Calling main function 
 if __name__=="__main__": 

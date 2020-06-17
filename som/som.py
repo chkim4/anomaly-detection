@@ -19,7 +19,7 @@ def main():
 
     # Make a SOM whose units(clusters) are from 0 to 24 and learning from X_train   
     model = Som((5, 5), 42, learning_rate=0.2)
-    model.fit(X_train, num_epochs=10, updates_epoch=10) 
+    model.fit(X_train, num_epochs=1, updates_epoch=1) 
 
     # Choose the proper unit for each row in the testing dataset
     y_pred = model.predict(X_test) 
@@ -27,7 +27,7 @@ def main():
   
     print("execution time: ", time.time() - start)
     utils.cal_accuracy(y_test, y_pred, 175341)    
-
+    
     #######Create models for testing the NSL-KDD dataset####### 
 
     X_train = pd.read_csv('../dataset/unsw-nb15/nsl-kdd-ver/train-set.csv') 
@@ -37,8 +37,7 @@ def main():
 
     # Save the model
     utils.save_model(model,'./model/nsl-kdd-model.sav')
- 
-     
+    
 # Calling main function 
 if __name__=="__main__": 
     main()

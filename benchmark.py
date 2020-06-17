@@ -85,7 +85,7 @@ def main():
     y_pred = utils.create_binary_prediction_som(y_pred, 11850, 0.82, 0.01) 
 
     print("execution time of som: ", time.time() - start) 
-    utils.cal_accuracy(y_test, test_predictions, 11850) 
+    utils.cal_accuracy(y_test, y_pred, 11850) 
     """
 
 if __name__=="__main__": 
